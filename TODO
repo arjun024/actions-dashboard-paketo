@@ -1,0 +1,1 @@
+- If it looks like the images are being cached, add datetime query param to the image url to force no-cache
