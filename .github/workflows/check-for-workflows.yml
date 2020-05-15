@@ -1,0 +1,29 @@
+name: Check for workflows
+on:
+  schedule:
+  - cron: '0 8 * * *'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Check out
+      uses: actions/checkout@v2
+
+    - name: Install yq
+      run: |
+        sudo wget -LO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/3.3.0/yq_linux_amd64
+        sudo chmod +x /usr/local/bin/yq
+
+    - run: |
+        ./generate.sh
+        if [ -z "$(git status -s -- README.md)" ]; then
+          echo No changes to commit
+          exit 0
+        fi
+        git config user.email "paketobuildpacks@paketo.io"
+        git config user.name "paketo-bot"
+        git add README.md
+        git commit -m "Update dashboard markdown"
+        git push origin master
