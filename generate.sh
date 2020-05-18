@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
-markdown_file=README.md
+inputs=(
+    https://raw.githubusercontent.com/paketo-buildpacks/github-config/master/.github/data/language-family-cnbs
+    https://raw.githubusercontent.com/paketo-buildpacks/github-config/master/.github/data/implementation-cnbs
+    ./non-cnbs
+)
 output=
-tmpd="$(mktemp -d -t dashboardXXXX)"
+output_file=README.md
 
 urlencode() {
     for (( i = 0; i < "${#1}"; i++ )); do
@@ -16,44 +19,70 @@ urlencode() {
     done
 }
 
+isurl() { [[ "$1" =~ https?://* ]]; }
+
+writeout() { output="$output""$1"; }
+
 header() {
-    output="${output}*(This is the dashboard. See [doc.md](doc.md) for documentation)*\n\n"
+    writeout "*(Generated file. See [doc.md](doc.md) for documentation)*\n\n"
 }
 
-parse_repo() {
-    repo="$1"
-    repotmp="$tmpd/$repo"
-    output="${output}#### ${repo}\n"
-    rm -rf "$repotmp"
+table_begin() {
+    writeout '<table><tr>'
+    for i in "${inputs[@]}"; do
+        writeout '<td><b>'"${i##*/}"'</b></td>'
+    done
+    writeout '</tr><tr>'
+}
 
-    git clone --bare https://github.com/"$repo" "$repotmp" 2> /dev/null
+table_end() { writeout '</tr></table>'; }
+
+parse_repo() {
+    repo="https://github.com/$1"
+    repotmp="$tmpd/$1"
+    writeout "**${repo##*/}**<br/>"
+    rm -rf "$repotmp"
+    git clone --bare "$repo" "$repotmp" 2> /dev/null
 
     count=0
     while read -r workflow; do
-        name=$(yq r <(curl -sL 'https://raw.githubusercontent.com/'"$repo"'/master/'"$workflow") name)
-        [ -z "$name" ] && name=workflow
+        [[ "$workflow" != *.yaml ]] && [[ "$workflow" != *.yml ]] && continue
+        name=$(yq r <(curl -sL "https://raw.githubusercontent.com/$1/master/$workflow") name)
+        [ -z "$name" ] && name="$workflow"
         encoded_name="$(urlencode "$name")"
-        output="${output}[![${name}]"'(https://github.com/'"${repo}/workflows/${encoded_name}"'/badge.svg)'
-        output="${output}](https://github.com/${repo}/actions?query=workflow:\"${encoded_name}\")"
-        output="${output}\n\n"
+        writeout "["
+        writeout "![${name}](${repo}/workflows/$encoded_name/badge.svg)"
+        writeout "]"
+        writeout "(${repo}/actions?query=workflow:\"$encoded_name\")"
         count=$((count+1))
     done < <(git -C "$repotmp" ls-tree -r HEAD | awk '{print $4}' | grep '^.github/workflows/')
 
-    [ $count -eq 0 ] && output="${output}\nNo workflows\n\n"
-    echo " Generated markdown for $repo"
+    [ $count -eq 0 ] && writeout "\n(none)"
+    writeout '<br/><br/>'
+    echo " Generated markdown for $1"
 }
 
+command -v yq > /dev/null || { echo "Need yq"; exit 1; }
+tmpd="$(mktemp -d -t dashboardXXXX)"
 header
-for type in 'language-family-cnbs' 'implementation-cnbs' ; do
-    echo Generating markdown for "$type"...
-    output="${output}### ${type}\n"
-    while read -r repo; do
-        parse_repo "$repo"
-    done < <(curl -sL https://raw.githubusercontent.com/paketo-buildpacks/github-config/master/.github/data/${type})
-    output="${output}---\n"
-done
-parse_repo paketo-buildpacks/github-config
+table_begin
 
-echo -e "$output" > "$markdown_file"
-echo Wrote to "$markdown_file"
+for i in "${inputs[@]}"; do
+    echo Generating markdown for "${i##*/}"...
+    writeout "<td>\n\n"
+    count=0
+    while read -r line; do
+        [[ "$line" = \#* ]] && continue
+        [ -z "$line" ] && continue
+        parse_repo "$line"
+        count=$((count+1))
+    done < <(if isurl "$i"; then curl -sL "$i"; else cat "$i"; fi)
+    [ $count -eq 0 ] && { echo "Failed to read $i"; exit 1; }
+    writeout "</td>\n\n"
+done
+
+table_end
+
+echo -e "$output" > "$output_file"
+echo Wrote to "$output_file"
 rm -rf "$tmpd"
