@@ -21,10 +21,9 @@ The repo input list is currently read from the following input files/urls:
 
 ### Auto-regenerate
 
-This repo [runs the generate script every
-day](.github/workflows/check-for-workflows.yml) to see if any workflow files
+This repo [runs the generate script every hour](.github/workflows/check-for-workflows.yml) to see if any workflow files
 have been added/removed from the repos listed in the input files. So your newly
-created workflow will appear here within a day's time.
+created workflow will appear here within an hour's time.
 
 If you would like to have a new workflow listed here immediately, do as
 follows:
