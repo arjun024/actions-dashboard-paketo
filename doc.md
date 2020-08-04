@@ -14,8 +14,8 @@ generate.sh
 ```
 
 The repo input list is currently read from the following input files/urls:
-* https://github.com/paketo-buildpacks/github-config/tree/master/.github/data/language-family-cnbs
-* https://github.com/paketo-buildpacks/github-config/tree/master/.github/data/implementation-cnbs
+* https://github.com/paketo-buildpacks/github-config/tree/main/.github/data/language-family-cnbs
+* https://github.com/paketo-buildpacks/github-config/tree/main/.github/data/implementation-cnbs
 * [./non-cnbs](./non-cnbs)
 
 

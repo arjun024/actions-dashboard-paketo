@@ -1,1 +1,4 @@
 paketo-buildpacks/github-config
+paketo-buildpacks/occam
+paketo-buildpacks/packit
+paketo-buildpacks/paketo-website

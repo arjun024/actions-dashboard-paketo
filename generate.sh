@@ -2,8 +2,8 @@
 set -euo pipefail
 
 inputs=(
-    https://raw.githubusercontent.com/paketo-buildpacks/github-config/master/.github/data/language-family-cnbs
-    https://raw.githubusercontent.com/paketo-buildpacks/github-config/master/.github/data/implementation-cnbs
+    https://raw.githubusercontent.com/paketo-buildpacks/github-config/main/.github/data/language-family-cnbs
+    https://raw.githubusercontent.com/paketo-buildpacks/github-config/main/.github/data/implementation-cnbs
     ./non-cnbs
 )
 output=
@@ -47,7 +47,7 @@ parse_repo() {
     count=0
     while read -r workflow; do
         [[ "$workflow" != *.yaml ]] && [[ "$workflow" != *.yml ]] && continue
-        name=$(yq r <(curl -sL "https://raw.githubusercontent.com/$1/master/$workflow") name)
+        name=$(yq r <(curl -sL "https://raw.githubusercontent.com/$1/main/$workflow") name)
         [ -z "$name" ] && name="$workflow"
         encoded_name="$(urlencode "$name")"
         writeout "["
