@@ -1,3 +1,6 @@
+paketo-buildpacks/base-builder
+paketo-buildpacks/builder
+paketo-buildpacks/full-builder
 paketo-buildpacks/github-config
 paketo-buildpacks/occam
 paketo-buildpacks/packit
