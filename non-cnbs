@@ -6,3 +6,4 @@ paketo-buildpacks/occam
 paketo-buildpacks/packit
 paketo-buildpacks/paketo-website
 paketo-buildpacks/procfile
+paketo-buildpacks/tiny-builder
