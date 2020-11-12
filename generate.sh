@@ -42,12 +42,12 @@ parse_repo() {
     repotmp="$tmpd/$1"
     writeout "**${repo##*/}**<br/>"
     rm -rf "$repotmp"
-    git clone --bare "$repo" "$repotmp" 2> /dev/null
+    git clone --depth=1 "$repo" "$repotmp" 2> /dev/null
 
     count=0
     while read -r workflow; do
         [[ "$workflow" != *.yaml ]] && [[ "$workflow" != *.yml ]] && continue
-        name=$(yq r <(curl -sL "https://raw.githubusercontent.com/$1/main/$workflow") name)
+        name=$(yq r "${repotmp}/${workflow}" name)
         [ -z "$name" ] && name="$workflow"
         encoded_name="$(urlencode "$name")"
         writeout "["
