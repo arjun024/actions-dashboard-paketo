@@ -7,3 +7,6 @@ paketo-buildpacks/packit
 paketo-buildpacks/paketo-website
 paketo-buildpacks/procfile
 paketo-buildpacks/tiny-builder
+paketo-buildpacks/pip-install
+paketo-buildpacks/pipenv-install
+paketo-buildpacks/conda-env-update
