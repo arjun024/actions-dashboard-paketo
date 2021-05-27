@@ -8,7 +8,6 @@ inputs=(
 )
 output=
 output_file=README.md
-d=$(date +%s)
 
 urlencode() {
     for (( i = 0; i < "${#1}"; i++ )); do
@@ -53,7 +52,7 @@ parse_repo() {
         encoded_name="$(urlencode "$name")"
         writeout "["
         # query param to bust cache
-        writeout "![${name}](${repo}/workflows/$encoded_name/badge.svg?datetime=$d)"
+        writeout "![${name}](${repo}/workflows/$encoded_name/badge.svg?kill_cache=1)"
         writeout "]"
         writeout "(${repo}/actions?query=workflow:\"$encoded_name\")"
         count=$((count+1))
