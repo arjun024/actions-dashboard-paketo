@@ -2,7 +2,7 @@
 set -euo pipefail
 
 inputs=(
-    ./builders-&-composites
+    ./builders-and-composites
     ./implementations
     ./non-cnbs
 )
