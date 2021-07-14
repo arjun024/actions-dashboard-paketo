@@ -10,3 +10,9 @@ paketo-buildpacks/tiny-builder
 paketo-community/pip-install
 paketo-community/pipenv-install
 paketo-community/conda-env-update
+paketo-buildpacks/stacks
+paketo-buildpacks/stack-usns
+paketo-buildpacks/base-stack-release
+paketo-buildpacks/full-stack-release
+paketo-buildpacks/tiny-stack-release
+paketo-buildpacks/dep-server 
