@@ -4,7 +4,7 @@ set -euo pipefail
 inputs=(
     ./builders-and-composites
     ./implementations
-    ./non-cnbs
+    ./others
 )
 output=
 output_file=README.md
