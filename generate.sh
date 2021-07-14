@@ -2,8 +2,8 @@
 set -euo pipefail
 
 inputs=(
-    https://raw.githubusercontent.com/paketo-buildpacks/github-config/main/.github/data/language-family-cnbs
-    https://raw.githubusercontent.com/paketo-buildpacks/github-config/main/.github/data/implementation-cnbs
+    ./builders-&-composites
+    ./implementations
     ./non-cnbs
 )
 output=
