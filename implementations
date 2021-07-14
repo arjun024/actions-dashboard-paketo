@@ -1,5 +1,3 @@
-paketo-buildpacks/ca-certificates
-paketo-buildpacks/environment-variables
 paketo-buildpacks/bundle-install
 paketo-buildpacks/bundler
 paketo-buildpacks/dep
@@ -25,19 +23,15 @@ paketo-buildpacks/passenger
 paketo-buildpacks/php-composer
 paketo-buildpacks/php-dist
 paketo-buildpacks/php-web
-paketo-buildpacks/procfile
 paketo-buildpacks/puma
 paketo-buildpacks/rackup
 paketo-buildpacks/rails-assets
 paketo-buildpacks/rake
 paketo-buildpacks/thin
-paketo-buildpacks/tini
 paketo-buildpacks/unicorn
 paketo-buildpacks/yarn
 paketo-buildpacks/yarn-install
 paketo-buildpacks/yarn-start
-paketo-community/bootstrapper
-paketo-community/build-plan
 paketo-community/cargo-install
 paketo-community/conda-env-update
 paketo-community/cpython
