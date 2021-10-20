@@ -8,3 +8,6 @@ paketo-community/rust
 paketo-buildpacks/base-builder
 paketo-buildpacks/full-builder
 paketo-buildpacks/tiny-builder
+paketo-buildpacks/buildpackless-base-builder
+paketo-buildpacks/buildpackless-full-builder
+paketo-buildpacks/buildpackless-tiny-builder
